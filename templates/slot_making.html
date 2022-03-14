@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Teachers</title>
+    </head>
+
+    <body>
+        <form action="{{url_for('make_slots', ID=ID)}}" method="POST">
+            <p align="center"><input type="text" name="starthour" placeholder="HH">:<input type="text" name="startmins" placeholder="MM">
+            - <input type="text" name="endhour" placeholder="HH">:<input type="text" name="endmins" placeholder="MM"></p>          
+            <p align="center"><input type="date" name="date" placeholder="date"></p>
+            <p align="center"><input type="number" name="min" placeholder="Minimum number of Students"></p>
+            <p align="center"><input type="number" name="max" placeholder="Maximum number of Students"></p>
+            <p align="center"><input type="submit" value="Enter"></p>
+        </form>
+    </body>
+</html>

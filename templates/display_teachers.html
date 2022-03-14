@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Teachers</title>
+    </head>
+
+    <body>
+        <h1>Your Teachers</h1>
+        <form action="{{url_for('booking', ID=ID)}}" method="POST">
+            <p>Please select the teacher you want to consult.</p>
+            {% for t in teachers %}
+            <input type="radio" id="teacher" name="teacher" value="{{t}}">
+            <label for="teacher">{{t}}</label><br>
+            {% endfor %}
+            <p><input type="submit" value="Enter"></p>
+        </form>
+    </body>
+</html>

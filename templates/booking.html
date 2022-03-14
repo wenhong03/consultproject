@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Booking</title>
+    </head>
+
+    <body>
+        {% if data|length == 0 %}
+        <p>Your selected teacher does not have available slots.</p>
+        <p>Click <a href="{{url_for('home')}}">here</a> to log out.</p>
+        {% else %}
+        <form action="{{url_for('update_booking', ID=ID)}}" method="POST">
+            <p>Select a slot</p>
+            {% for slot in data %}
+            <input type="radio" id="slot" name="slot" value="{{slot}}">
+            <label for="slot">Time: {{slot[0]}} Date: {{slot[1]}} Minimum: {{slot[2]}} Maximum: {{slot[3]}} Current: {{slot[4]}}</label><br>
+            {% endfor %}
+            <p><input type="submit" value="Enter"></p>
+        </form>
+        {% endif %}      
+    </body>
+
+</html>

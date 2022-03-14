@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login Page</title>
+    </head>
+
+    <body>
+        <style>body {background-image: url("static/images/rvhs.jpg"); }</style>
+        <h1 align="center">Login Page</h1>
+        <form action="{{url_for('role')}}" align="center" method="POST">
+            <select name="role">
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>            
+            <p align="center"><input type="submit" value="Enter"></p>
+        </form>
+    </body>
+</html>

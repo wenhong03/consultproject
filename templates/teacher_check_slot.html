@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Slots</title>
+    </head>
+
+    <body>
+        <style>
+            #customers {
+              font-family: Arial, Helvetica, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            #customers td, #customers th {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+            
+            #customers tr:hover {background-color: #ddd;}
+            
+            #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: left;
+              background-color: #04AA6D;
+              color: white;
+            }
+        </style>
+
+        <h1 style="text-align: center;">Slots Booked By Students</h1>
+        <table width="100%" border="1px" id="customers">
+            <tr>
+                <th align="left">Names</th>
+                <th align="left">Date</th>
+                <th align="left">TimeSlot</th>
+                <th align="left">Min</th>
+                <th align="left">Max</th>
+                <th align="left">Current</th>
+            </tr>
+
+            {% for i in range(consultations|length) %}
+                {% if groups_of_names[i]|length == 0 %}
+                    <tr>
+                        <td></td>
+                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][0]}}</td>
+                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][1]}}</td>
+                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][3]}}</td>
+                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][2]}}</td>
+                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][4]}}</td>
+                    </tr>
+                {% else %}
+                    {% for j in range(groups_of_names[i]|length) %}
+                        {% if j == 0 %}
+                        <tr>
+                            <td>{{groups_of_names[i][j][0]}}</td>
+                            <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][0]}}</td>
+                            <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][1]}}</td>
+                            <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][3]}}</td>
+                            <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][2]}}</td>
+                            <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][4]}}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td>{{groups_of_names[i][j][0]}}</td>
+                        </tr>
+                        {% endif %}                  
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </table>
+    </body>
+</html>
