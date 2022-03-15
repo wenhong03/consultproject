@@ -11,8 +11,7 @@ def home():
 def role():
     if request.method == "GET":
         return render_template("role.html")
-    else:
-        
+    else:        
         if request.form["role"] == "teacher":
             return redirect(url_for("teacher_login"))
         else:
@@ -67,9 +66,7 @@ def display_teachers():
     
 @app.route("/booking/", methods=["GET", "POST"])
 def booking():
-    print("AAAAA")
     ID = request.form["ID"]
-    print("BBBB")
     teacher = request.form["teacher"]
     db = sqlite3.connect("End of Year Project.db")
 
@@ -113,7 +110,6 @@ def update_booking():
 
     cursor = db.execute(checker_query, (ID, ConsultationNo))
     ConsultationRecordNo = cursor.fetchall()
-    print(ConsultationRecordNo)
 
     if not ConsultationRecordNo: 
 
@@ -151,7 +147,6 @@ def student_check_booking():
     """
     cursor = db.execute(query, (ID,))
     data = cursor.fetchall()
-    print(data)
     return render_template("student's display.html", data=data)
 
 @app.route("/teacher/", methods=["GET", "POST"])
@@ -248,14 +243,12 @@ def teacher_check_slot():
 
     cursor = db.execute(get_consultations_query, (ID, ))
     consultations = cursor.fetchall()
-    print(consultations)
 
     groups_of_names = []
     for consultation in consultations:
         cursor = db.execute(get_student_names_query, (ID, consultation[0], consultation[1], consultation[2], consultation[3], consultation[4]))
         student_names = cursor.fetchall()
         groups_of_names.append(student_names)
-    print("groups_of_names", groups_of_names)
 
     return render_template("teacher_check_slot.html", consultations=consultations, groups_of_names=groups_of_names)
 
