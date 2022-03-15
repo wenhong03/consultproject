@@ -5,8 +5,53 @@
     </head>
 
     <body>
-        <a href="{{url_for('make_slots', ID=ID)}}">Make Slots</a>
-        <a href="{{url_for('teacher_check_slot', ID=ID)}}">Check Slots</a>
+        <h1 align="center">What would you like to do today?</h1>
+        <style>
+            /* unvisited link */
+            a:link {
+              color: rgb(0, 0, 0);
+            }
+            
+            /* visited link */
+            a:visited {
+              color: green;
+            }
+            
+            /* mouse over link */
+            a:hover {
+              color: hotpink;
+            }
+            
+            /* selected link */
+            a:active {
+              color: rgb(255, 0, 0);
+            }
+
+            h1 {font-family: calibri;}
+
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+        </style>
+
+        <form align="center" action="{{url_for('make_slots_a')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Make Slots</button>
+        </form>
+
+        <form align="center" action="{{url_for('teacher_check_slot')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Check Slots</button>
+        </form>
     </body>
 
 </html>

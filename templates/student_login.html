@@ -13,27 +13,33 @@
                 margin: 8px 0;
                 border: none;
                 cursor: pointer;
-                width: 20%;}
+                width: 10%;}
 
             button:hover {
                 opacity: 0.8;
                 }
 
             input[type=text], input[type=password] {
-                width: 80%;
+                width: 50%;
                 padding: 20px 10px;
                 margin: 8px 0;
                 display: inline-block;
                 border: 1px solid #ccc;
                 box-sizing: border-box;
                 }
+
+            h1 {font-size: 50px;}
+
+            .error_message {color:red; text-align: center;}
         </style>
 
         <h1 align="center">Login Page</h1>
         <form action="{{url_for('student_login')}}" align="center" method="POST">
-            <p><input type="text" name="ID" placeholder="ID" width="100%"></p>
-            <p><input type="password" name="Password" placeholder="Password" width="100%"></p><br>
+            <p><input type="text" name="ID" placeholder="ID" width="100%" required></p>
+            <p><input type="password" name="Password" placeholder="Password" width="100%" required></p><br>
             <button type="submit">Login</button>
-        </form>     
+        </form>  
+        
+        <p class="error_message">{{error_message}}</p>
     </body>
 </html>

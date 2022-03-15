@@ -5,7 +5,47 @@
     </head>
 
     <body>
-        <p>You have previously booked this slot.</p>
-        <p>Click <a href="{{url_for('booking', ID=ID)}}">here</a> to make another booking.</p>
+        <style>
+            /* unvisited link */
+            a:link {
+              color: rgb(0, 0, 0);
+            }
+            
+            /* visited link */
+            a:visited {
+              color: green;
+            }
+            
+            /* mouse over link */
+            a:hover {
+              color: hotpink;
+            }
+            
+            /* selected link */
+            a:active {
+              color: rgb(255, 0, 0);
+            }
+
+            p {font-family: calibri;}
+
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+        </style>
+
+        <p align="center">You have previously booked this slot.</p>
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Home Page</button>
+        </form>
     </body>
 </html>

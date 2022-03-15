@@ -5,14 +5,21 @@
     </head>
 
     <body>
-        <style>body {background-image: url("static/images/rvhs.jpg"); }</style>
+        <style>
+            button {background-color: #04AA6D;color: white;padding: 5px 5px;margin: 8px 0;border: none;cursor: pointer;width: 5%;}
+            button:hover {opacity: 0.8;}
+
+            h1 {font-size: 50px;}
+        </style>
+
         <h1 align="center">Login Page</h1>
         <form action="{{url_for('role')}}" align="center" method="POST">
             <select name="role">
                 <option value="student">Student</option>
                 <option value="teacher">Teacher</option>
-            </select>            
-            <p align="center"><input type="submit" value="Enter"></p>
+            </select>           
+            <br><br>
+            <button type="submit">Enter</button>
         </form>
     </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Booking</title>
+    </head>
+
+    <body>
+        <style>
+          button {
+              background-color: #04AA6D;
+              color: white;
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              cursor: pointer;
+              width: 10%;}
+
+          button:hover {
+              opacity: 0.8;
+              }
+
+          p {font-family: calibri;}
+        </style>
+
+        <p align="center">You have previously made this slot.</p>
+
+        <form align="center" action="{{url_for('teacher_homepage')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Home Page</button>
+        </form>
+    </body>
+</html>

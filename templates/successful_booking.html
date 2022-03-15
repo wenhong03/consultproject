@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Student Home Page</title>
+        <title>Success</title>
     </head>
 
     <body>
-        <h1 align="center">What would you like to do today?</h1>
         <style>
             /* unvisited link */
             a:link {
@@ -42,15 +41,11 @@
                 opacity: 0.8;
                 }
         </style>
-        
-        <form align="center" action="{{url_for('student_check_booking')}}" method="POST">
-          <input type="hidden" name="ID" value="{{ID}}">
-          <button type="submit">check bookings</button>
-        </form>
 
-        <form align="center" action="{{url_for('display_teachers')}}" method="POST">
+        <p align="center">Booking Successful</p>
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
           <input type="hidden" name="ID" value="{{ID}}">
-          <button type="submit">book</button>
+          <button type="submit">Home Page</button>
         </form>
     </body>
 </html>

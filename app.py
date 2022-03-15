@@ -12,6 +12,7 @@ def role():
     if request.method == "GET":
         return render_template("role.html")
     else:
+        
         if request.form["role"] == "teacher":
             return redirect(url_for("teacher_login"))
         else:
@@ -31,7 +32,6 @@ def student_login():
         """
         cursor = db.execute(query)
         accounts = cursor.fetchall()
-        print(accounts)
 
         valid = False
         for account in accounts:
@@ -41,70 +41,71 @@ def student_login():
         if valid:
             return render_template("student_homepage.html", ID=ID)
         else:
-            return render_template("student_login.html")
+            error_message = "Incorrect Username or Password"
+            return render_template("student_login.html", error_message=error_message)
 
-@app.route("/booking/<ID>", methods=["GET", "POST"])
-def booking(ID):
-    if request.method == "GET":
-        query = """
-        SELECT Teachers.Name FROM Teachers, TeachingRecord, Students
-        WHERE Teachers.TeacherID == TeachingRecord.TeacherID AND Students.StudentID == TeachingRecord.StudentID AND Students.StudentID == ?
-        """
-        db = sqlite3.connect("End of Year Project.db")
-        # db.close()
-        cursor = db.execute(query, (ID,))
-        data = cursor.fetchall()
-        # print(data)
-        teachers = ()
-        for teacher in data:
-            teachers += (teacher[0],)
-        # print(teachers)
-        return render_template("display_teachers.html", teachers=teachers, ID=ID)
+@app.route("/student_homepage/", methods=["GET", "POST"])
+def student_homepage():
+    ID = request.form["ID"]
+    return render_template("student_homepage.html", ID=ID)
+
+@app.route("/display_teachers/", methods=["GET", "POST"])
+def display_teachers():
+    ID = request.form["ID"]
+
+    query = """
+    SELECT Teachers.Name FROM Teachers, TeachingRecord, Students
+    WHERE Teachers.TeacherID == TeachingRecord.TeacherID AND Students.StudentID == TeachingRecord.StudentID AND Students.StudentID == ?
+    """
+    db = sqlite3.connect("End of Year Project.db")
+    cursor = db.execute(query, (ID,))
+    data = cursor.fetchall()
+    teachers = ()
+    for teacher in data:
+        teachers += (teacher[0],)
+    return render_template("display_teachers.html", teachers=teachers, ID=ID)
     
-    else:
-        teacher = request.form["teacher"]
-        db = sqlite3.connect("End of Year Project.db")
+@app.route("/booking/", methods=["GET", "POST"])
+def booking():
+    print("AAAAA")
+    ID = request.form["ID"]
+    print("BBBB")
+    teacher = request.form["teacher"]
+    db = sqlite3.connect("End of Year Project.db")
 
-        teacherID_query = """
-        SELECT Teachers.TeacherID FROM Teachers
-        WHERE Teachers.Name == ?
-        """
+    teacherID_query = """
+    SELECT Teachers.TeacherID FROM Teachers
+    WHERE Teachers.Name == ?
+    """
 
-        read_all_consultations_query = """
-        SELECT Date, TimeSlot, Min, Max, Current, ConsultationNo FROM Consultations
-        WHERE TeacherID == ? AND Current < Max
-        """
+    read_all_consultations_query = """
+    SELECT Date, TimeSlot, Min, Max, Current, ConsultationNo FROM Consultations
+    WHERE TeacherID == ? AND Current < Max
+    """
 
-        cursor = db.execute(teacherID_query, (teacher,))
-        data = cursor.fetchall()
-        teacherID = data[0][0]
-        # print(teacherID)
-        # print(data)
+    cursor = db.execute(teacherID_query, (teacher,))
+    data = cursor.fetchall()
+    teacherID = data[0][0]
 
-        cursor = db.execute(read_all_consultations_query, (teacherID,))
-        data = cursor.fetchall()
+    cursor = db.execute(read_all_consultations_query, (teacherID,))
+    data = cursor.fetchall()
 
-        return render_template("booking.html", data=data, ID=ID)
+    return render_template("booking.html", data=data, ID=ID)
 
-@app.route("/update_booking/<ID>", methods=["POST"])
-def update_booking(ID):
+@app.route("/update_booking/", methods=["POST"])
+def update_booking():
+    ID = request.form["ID"]
     temp = request.form["slot"]
     slot = temp[1:-1]
     lst = slot.split(",")
-    # date = lst[0][1:-1]
-    # time = lst[1][2:-1]
+    date = lst[0][1:-1]
+    time = lst[1][2:-1]
     Current = lst[4][1:]
     ConsultationNo = lst[5][1:]
 
-    print(lst)
-    # print(slot)
-    # print(temp)
-
-    print(Current)
-    print(ConsultationNo)
-
     db = sqlite3.connect("End of Year Project.db")
 
+    # To prevent students from booking the same slots that they have previously booked.
     checker_query = """
     SELECT ConsultationRecordNo FROM ConsultationRecord
     WHERE StudentID == ? AND ConsultationNo == ?
@@ -113,8 +114,6 @@ def update_booking(ID):
     cursor = db.execute(checker_query, (ID, ConsultationNo))
     ConsultationRecordNo = cursor.fetchall()
     print(ConsultationRecordNo)
-
-    # To prevent students from booking the same slots that they have previously booked.
 
     if not ConsultationRecordNo: 
 
@@ -133,13 +132,14 @@ def update_booking(ID):
         db.commit()
         db.close()
 
-        return "DONE"
+        return render_template("successful_booking.html", ID=ID)
 
     else:
         return render_template("rebook.html", ID=ID)
 
-@app.route("/student_check_booking/<ID>", methods=["GET", "POST"])
-def student_check_booking(ID):
+@app.route("/student_check_booking/", methods=["GET", "POST"])
+def student_check_booking():
+    ID = request.form["ID"]
     db = sqlite3.connect("End of Year Project.db")
     query = """
     SELECT Consultations.Date, Consultations.TimeSlot, Consultations.Current, Teachers.Name, Consultations.Max, Consultations.Min
@@ -168,7 +168,6 @@ def teacher_login():
         """
         cursor = db.execute(query)
         accounts = cursor.fetchall()
-        print(accounts)
 
         valid = False
         for account in accounts:
@@ -178,21 +177,38 @@ def teacher_login():
         if valid:
             return render_template("teacher_homepage.html", ID=ID)
         else:
-            return render_template("teacher_login.html")
+            return render_template("teacher_login.html", error_message="Incorrect Username or Password")
 
-@app.route("/make_slots/<ID>", methods=["GET", "POST"])
-def make_slots(ID):
-    if request.method == "GET":
-        return render_template("slot_making.html", ID=ID)
-    else:
-        date = request.form["date"]
-        time = request.form["starthour"] + request.form["startmins"] + " - " + request.form["endhour"] + request.form["endmins"]
-        # print(date)
-        # print(time)
-        minimum = request.form["min"]
-        maximum = request.form["max"]
+@app.route("/teacher_homepage/", methods=["GET", "POST"])
+def teacher_homepage():
+    ID = request.form["ID"]
+    return render_template("teacher_homepage.html", ID=ID)
 
-        db = sqlite3.connect("End of Year Project.db")
+@app.route("/make_slots_a/", methods=["GET", "POST"])
+def make_slots_a():
+    ID = request.form["ID"]
+    return render_template("slot_making.html", ID=ID)
+
+@app.route("/make_slots_b/", methods=["GET", "POST"])
+def make_slots_b():
+    ID = request.form["ID"]
+    date = request.form["date"]
+    time = request.form["starthour"] + request.form["startmins"] + " - " + request.form["endhour"] + request.form["endmins"]
+    minimum = request.form["min"]
+    maximum = request.form["max"]
+
+    db = sqlite3.connect("End of Year Project.db")
+
+    # to prevent teachers from making the same slot again
+    check_query = """
+    SELECT * FROM Consultations
+    WHERE TeacherID = ? AND TimeSlot = ? AND Date = ?
+    """
+
+    cursor = db.execute(check_query, (ID, time, date))
+    consultation = cursor.fetchall()
+
+    if not consultation:
         query = """
         INSERT INTO Consultations(TeacherID, TimeSlot, Date, Max, Min) VALUES(?, ?, ?, ?, ?)
         """
@@ -200,10 +216,15 @@ def make_slots(ID):
         db.commit()
         db.close()
         
-        return "DONE"
+        return render_template("successful_making.html", ID=ID)
 
-@app.route("/teacher_check_slot/<ID>", methods=["GET", "POST"])
-def teacher_check_slot(ID):
+    else:
+        return render_template("remake.html", ID=ID)
+
+
+@app.route("/teacher_check_slot/", methods=["GET", "POST"])
+def teacher_check_slot():
+    ID = request.form["ID"]
     db = sqlite3.connect("End of Year Project.db")
 
     # if want to check null must use "is"
@@ -239,4 +260,4 @@ def teacher_check_slot(ID):
     return render_template("teacher_check_slot.html", consultations=consultations, groups_of_names=groups_of_names)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(debug=False, port=5002)

@@ -5,14 +5,41 @@
     </head>
 
     <body>
-        <h1>Your Teachers</h1>
-        <form action="{{url_for('booking', ID=ID)}}" method="POST">
+        <style>
+            h1 {font-size: 50px; font-family: calibri;}
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+
+            input[type=text], input[type=password] {
+                width: 50%;
+                padding: 20px 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                }
+        </style>
+
+        <h1 align="center">Your Teachers</h1>
+        
+        <form align="center" action="{{url_for('booking')}}" method="POST">
             <p>Please select the teacher you want to consult.</p>
             {% for t in teachers %}
-            <input type="radio" id="teacher" name="teacher" value="{{t}}">
-            <label for="teacher">{{t}}</label><br>
+            <input type="radio" id="{{t}}" name="teacher" value="{{t}}">
+            <label for="{{t}}">{{t}}</label><br>
             {% endfor %}
-            <p><input type="submit" value="Enter"></p>
+            <input type="hidden" name="ID" value="{{ID}}">
+            <p><button type="submit">Enter</button></p>
         </form>
     </body>
 </html>

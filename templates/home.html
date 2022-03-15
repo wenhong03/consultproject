@@ -5,9 +5,17 @@
     </head>
 
     <body>
-        <p align="center"><img src="static/images/download.png" alt="RVHS"></p><br><br>
-        <h1 style="text-align: center; font-size:100px; color:rgb(128, 0, 255); font-family: calibri;">Consultation Booking</h1>
-        <p align="center" style="font-size: 100%; font-size:60px; font-family: calibri;"><a style="color: rgb(8, 7, 7)" href="{{url_for('role')}}">Login</a></p>
+        <p align="center"><img src="static/images/download.png" alt="RVHS"></p>
+        <h1 style="text-align: center; font-size:80px; color:black; font-family: calibri;">Consultation Booking</h1>
+        
+        <style>
+        button {background-color: #04AA6D;color: white;padding: 14px 5px;margin: 8px 0;border: none;cursor: pointer;width: 5%;}
+        button:hover {opacity: 0.8;}
+        </style>
+
+        <form action="{{url_for('role')}}" method="GET" align="center">
+            <button type="submit">Login</button>
+        </form>
     </body>
 </html>
 

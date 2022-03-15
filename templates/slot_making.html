@@ -5,13 +5,38 @@
     </head>
 
     <body>
-        <form action="{{url_for('make_slots', ID=ID)}}" method="POST">
+        <style>
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+
+            input[type=text], input[type=password], input[type=date], input[type=number]{
+                width: 20%;
+                padding: 10px 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                }
+        </style>
+
+        <form action="{{url_for('make_slots_b')}}" method="POST">
             <p align="center"><input type="text" name="starthour" placeholder="HH">:<input type="text" name="startmins" placeholder="MM">
             - <input type="text" name="endhour" placeholder="HH">:<input type="text" name="endmins" placeholder="MM"></p>          
             <p align="center"><input type="date" name="date" placeholder="date"></p>
             <p align="center"><input type="number" name="min" placeholder="Minimum number of Students"></p>
             <p align="center"><input type="number" name="max" placeholder="Maximum number of Students"></p>
-            <p align="center"><input type="submit" value="Enter"></p>
+            <input type="hidden" name="ID" value="{{ID}}">
+            <p align="center"><button type="submit">Enter</button></p>
         </form>
     </body>
 </html>

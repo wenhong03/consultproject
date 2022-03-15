@@ -45,11 +45,11 @@
                 {% if groups_of_names[i]|length == 0 %}
                     <tr>
                         <td></td>
-                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][0]}}</td>
-                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][1]}}</td>
-                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][3]}}</td>
-                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][2]}}</td>
-                        <td rowspan="{{groups_of_names[i]|length}}">{{consultations[i][4]}}</td>
+                        <td rowspan=1>{{consultations[i][0]}}</td>
+                        <td rowspan=1>{{consultations[i][1]}}</td>
+                        <td rowspan=1>{{consultations[i][3]}}</td>
+                        <td rowspan=1>{{consultations[i][2]}}</td>
+                        <td rowspan=1>{{consultations[i][4]}}</td>
                     </tr>
                 {% else %}
                     {% for j in range(groups_of_names[i]|length) %}

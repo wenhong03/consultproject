@@ -5,18 +5,80 @@
     </head>
 
     <body>
+        <style>
+            #customers {
+              font-family: Arial, Helvetica, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            #customers td, #customers th {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+            
+            #customers tr:hover {background-color: #ddd;}
+            
+            #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: left;
+              background-color: #04AA6D;
+              color: white;
+            }
+
+            p {text-align: center; font-family: calibri;}
+
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+        </style>
+
         {% if data|length == 0 %}
         <p>Your selected teacher does not have available slots.</p>
         <p>Click <a href="{{url_for('home')}}">here</a> to log out.</p>
+
         {% else %}
-        <form action="{{url_for('update_booking', ID=ID)}}" method="POST">
+        <form action="{{url_for('update_booking')}}" method="POST">
             <p>Select a slot</p>
-            {% for slot in data %}
-            <input type="radio" id="slot" name="slot" value="{{slot}}">
-            <label for="slot">Time: {{slot[0]}} Date: {{slot[1]}} Minimum: {{slot[2]}} Maximum: {{slot[3]}} Current: {{slot[4]}}</label><br>
-            {% endfor %}
-            <p><input type="submit" value="Enter"></p>
+
+            <table id="customers">
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Minimum</th>
+                    <th>Maximum</th>
+                    <th>Current</th>
+                </tr>
+
+                {% for slot in data %}
+                    <tr>
+                        <td><input type="radio" id="slot" name="slot" value="{{slot}}"></td>
+                        <td>{{slot[0]}}</td>
+                        <td>{{slot[1]}}</td>
+                        <td>{{slot[2]}}</td>
+                        <td>{{slot[3]}}</td>
+                        <td>{{slot[4]}}</td>                  
+                    </tr>
+                {% endfor %}
+
+            </table>
+            <input type="hidden" name="ID" value="{{ID}}">
+            <p><button type="submit">Enter</button></p>
         </form>
+
         {% endif %}      
     </body>
 

@@ -6,10 +6,40 @@
 
     <body>
         <h1 align="center">Login Page</h1>
+        <style>
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
+
+            input[type=text], input[type=password] {
+                width: 50%;
+                padding: 20px 10px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                }
+            
+            h1 {font-size: 50px;}
+
+            .error {text-align: center; color:red}
+        </style>
+        
         <form action="{{url_for('teacher_login')}}" method="POST" align="center">
-            <p><input type="text" name="ID" placeholder="ID"></p>
-            <p><input type="password" name="Password" placeholder="Password"></p>
-            <p><input type="submit" value="Enter"></p>
-        </form> 
+            <p><input type="text" name="ID" placeholder="ID" required></p>
+            <p><input type="password" name="Password" placeholder="Password" required></p>
+            <p><button type="submit">Enter</button></p>
+        </form>
+
+        <p class="error">{{error_message}}</p>
     </body>
 </html>
