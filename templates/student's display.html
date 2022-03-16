@@ -28,6 +28,19 @@
               background-color: #04AA6D;
               color: white;
             }
+
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
         </style>
 
         <table width="100%" border="1px" id="customers">
@@ -49,6 +62,17 @@
             </tr>
             {% endfor %}
         </table>
-    </body>
 
+        <br>
+
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Home Page</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
+        </form>
+    </body>
 </html>

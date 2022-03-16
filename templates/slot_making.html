@@ -30,13 +30,23 @@
         </style>
 
         <form action="{{url_for('make_slots_b')}}" method="POST">
-            <p align="center"><input type="text" name="starthour" placeholder="HH">:<input type="text" name="startmins" placeholder="MM">
-            - <input type="text" name="endhour" placeholder="HH">:<input type="text" name="endmins" placeholder="MM"></p>          
-            <p align="center"><input type="date" name="date" placeholder="date"></p>
-            <p align="center"><input type="number" name="min" placeholder="Minimum number of Students"></p>
-            <p align="center"><input type="number" name="max" placeholder="Maximum number of Students"></p>
+            <p align="center"><input type="text" name="starthour" placeholder="HH" required>:<input type="text" name="startmins" placeholder="MM" required>
+            - <input type="text" name="endhour" placeholder="HH" required>:<input type="text" name="endmins" placeholder="MM" required></p>          
+            <p align="center"><input type="date" name="date" placeholder="date" required></p>
+            <p align="center"><input type="number" name="min" placeholder="Minimum number of Students" required></p>
+            <p align="center"><input type="number" name="max" placeholder="Maximum number of Students" required></p>
             <input type="hidden" name="ID" value="{{ID}}">
             <p align="center"><button type="submit">Enter</button></p>
+        </form>
+
+        <form align="center" action="{{url_for('teacher_homepage')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Home Page</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
         </form>
     </body>
 </html>

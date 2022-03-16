@@ -45,12 +45,22 @@
         
         <form align="center" action="{{url_for('student_check_booking')}}" method="POST">
           <input type="hidden" name="ID" value="{{ID}}">
-          <button type="submit">check bookings</button>
+          <button type="submit">Check Bookings</button>
         </form>
 
         <form align="center" action="{{url_for('display_teachers')}}" method="POST">
           <input type="hidden" name="ID" value="{{ID}}">
-          <button type="submit">book</button>
+          <button type="submit">Book</button>
+        </form>
+
+        <form align="center" action="{{url_for('cancel_booking_a')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Cancel Booking</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Log Out</button>
         </form>
     </body>
 </html>

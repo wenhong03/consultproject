@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cancel Booking</title>
+    </head>
+
+    <body>
+        <h1 style="text-align: center; font-size:80px; color:black; font-family: calibri;">Cancel Booking</h1>
+        
+        <style>
+            button {background-color: #04AA6D;color: white;padding: 14px 5px;margin: 8px 0;border: none;cursor: pointer;width: 10%;}
+            button:hover {opacity: 0.8;}
+            #customers {
+              font-family: Arial, Helvetica, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            #customers td, #customers th {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+            
+            #customers tr:hover {background-color: #ddd;}
+            
+            #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: left;
+              background-color: #04AA6D;
+              color: white;
+            }
+        </style>
+
+        {% if data|length == 0 %}
+            <p align="center">You do not have any consultation slot.</p>
+
+        {% else %}
+            <form align="center" action="{{url_for('cancel_booking_b')}}" method="POST">
+                <p>Select a slot</p>
+
+                <table id="customers">
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Teacher</th>
+                    </tr>
+
+                    {% for slot in data %}
+                        <tr>
+                            <td><input type="radio" id="slot" name="slot" value="{{slot}}"></td>
+                            <td>{{slot[0]}}</td>
+                            <td>{{slot[1]}}</td>
+                            <td>{{slot[2]}}</td>                 
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <input type="hidden" name="ID" value="{{ID}}">
+                <p><button type="submit">Enter</button></p>
+            </form>
+        {% endif %}
+
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Home Page</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
+        </form>
+    </body>
+</html>

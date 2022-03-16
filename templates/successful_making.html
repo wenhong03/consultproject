@@ -47,5 +47,10 @@
             <input type="hidden" name="ID" value="{{ID}}">
             <button type="submit">Home Page</button>
         </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Log Out</button>
+        </form>
     </body>
 </html>

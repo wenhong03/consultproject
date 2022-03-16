@@ -28,9 +28,22 @@
               background-color: #04AA6D;
               color: white;
             }
+
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 10%;}
+
+            button:hover {
+                opacity: 0.8;
+                }
         </style>
 
-        <h1 style="text-align: center;">Slots Booked By Students</h1>
+        <h1 style="text-align: center;">Consultation Slots</h1>
         <table width="100%" border="1px" id="customers">
             <tr>
                 <th align="left">Names</th>
@@ -71,5 +84,18 @@
                 {% endif %}
             {% endfor %}
         </table>
+
+        <br>
+
+        <form align="center" action="{{url_for('teacher_homepage')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Home Page</button>
+        </form>
+  
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
+        </form>
+
     </body>
 </html>

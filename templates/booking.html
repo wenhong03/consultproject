@@ -47,7 +47,6 @@
 
         {% if data|length == 0 %}
         <p>Your selected teacher does not have available slots.</p>
-        <p>Click <a href="{{url_for('home')}}">here</a> to log out.</p>
 
         {% else %}
         <form action="{{url_for('update_booking')}}" method="POST">
@@ -79,7 +78,17 @@
             <p><button type="submit">Enter</button></p>
         </form>
 
-        {% endif %}      
+        {% endif %}
+        
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Home Page</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
+        </form>
     </body>
 
 </html>

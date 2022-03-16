@@ -1,32 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Booking</title>
+        <title>Success</title>
     </head>
 
     <body>
         <style>
-            /* unvisited link */
-            a:link {
-              color: rgb(0, 0, 0);
-            }
-            
-            /* visited link */
-            a:visited {
-              color: green;
-            }
-            
-            /* mouse over link */
-            a:hover {
-              color: hotpink;
-            }
-            
-            /* selected link */
-            a:active {
-              color: rgb(255, 0, 0);
-            }
-
-            p {font-family: calibri;}
+            h1 {font-family: calibri;}
 
             button {
                 background-color: #04AA6D;
@@ -42,15 +22,15 @@
                 }
         </style>
 
-        <p align="center">You have previously booked this slot.</p>
+        <p align="center">Cancel Successful</p>
         <form align="center" action="{{url_for('student_homepage')}}" method="POST">
           <input type="hidden" name="ID" value="{{ID}}">
           <button type="submit">Home Page</button>
         </form>
 
         <form align="center" action="{{url_for('home')}}" method="POST">
-          <input type="hidden" name="ID" value="{{ID}}">
-          <button type="submit">Log Out</button>
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
         </form>
     </body>
 </html>

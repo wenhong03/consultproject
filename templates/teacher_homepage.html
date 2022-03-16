@@ -52,6 +52,16 @@
           <input type="hidden" name="ID" value="{{ID}}">
           <button type="submit">Check Slots</button>
         </form>
+
+        <form align="center" action="{{url_for('cancel_slot_a')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Cancel Slots</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+          <input type="hidden" name="ID" value="{{ID}}">
+          <button type="submit">Log Out</button>
+        </form>
     </body>
 
 </html>

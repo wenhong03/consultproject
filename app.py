@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     return render_template("home.html")
 
@@ -25,23 +25,25 @@ def student_login():
         ID = request.form["ID"]
         Password = request.form["Password"]
         db = sqlite3.connect("End of Year Project.db")
-        query = """
-        SELECT Students.StudentID, Students.Password
-        FROM Students
-        """
-        cursor = db.execute(query)
-        accounts = cursor.fetchall()
 
         valid = False
-        for account in accounts:
-            if account[0] == ID and account[1] == Password:
-                valid = True
-                break
+
+        search_query = """
+        SELECT * FROM Students
+        WHERE StudentID = ? AND Password = ?
+        """
+
+        cursor = db.execute(search_query, (ID, Password))
+        data = cursor.fetchall()
+        if len(data) != 0:
+            valid = True
+
         if valid:
             return render_template("student_homepage.html", ID=ID)
         else:
             error_message = "Incorrect Username or Password"
             return render_template("student_login.html", error_message=error_message)
+
 
 @app.route("/student_homepage/", methods=["GET", "POST"])
 def student_homepage():
@@ -112,7 +114,6 @@ def update_booking():
     ConsultationRecordNo = cursor.fetchall()
 
     if not ConsultationRecordNo: 
-
         add_ConsultationRecord = """
         INSERT INTO ConsultationRecord(ConsultationNo, StudentID) VALUES(?, ?)
         """
@@ -147,7 +148,60 @@ def student_check_booking():
     """
     cursor = db.execute(query, (ID,))
     data = cursor.fetchall()
-    return render_template("student's display.html", data=data)
+    return render_template("student's display.html", data=data, ID=ID)
+
+@app.route("/cancel_booking_a/", methods=["GET", "POST"])
+def cancel_booking_a():
+    ID = request.form["ID"]
+    db = sqlite3.connect("End of Year Project.db")
+    query = """
+    SELECT Consultations.Date, Consultations.TimeSlot, Teachers.Name, Consultations.ConsultationNo, ConsultationRecord.ConsultationRecordNo
+    FROM Teachers, Consultations, ConsultationRecord, Students
+    WHERE Students.StudentID = ? AND ConsultationRecord.StudentID = Students.StudentID
+    AND ConsultationRecord.ConsultationNo == Consultations.ConsultationNo
+    AND Consultations.TeacherID = Teachers.TeacherID
+    """
+    cursor = db.execute(query, (ID,))
+    data = cursor.fetchall()
+
+    return render_template("cancel_booking.html", ID=ID, data=data)
+
+@app.route("/cancel_booking_b/", methods=["GET", "POST"])
+def cancel_booking_b():
+    ID = request.form["ID"]
+    slot = request.form["slot"]
+
+    slot = slot[1:-1]
+    lst = slot.split(", ")
+    
+    consultationNo, consultationRecordNo = lst[3], lst[4]
+
+    db = sqlite3.connect("End of Year Project.db")
+
+    delete_consultationRecord_query = """
+    DELETE FROM ConsultationRecord WHERE ConsultationRecordNo = ?
+    """
+
+    db.execute(delete_consultationRecord_query, (consultationRecordNo,))
+
+    get_current_query = """
+    SELECT Current FROM Consultations
+    WHERE ConsultationNo = ?
+    """
+
+    cursor = db.execute(get_current_query, (consultationNo,))
+    current = int(cursor.fetchone()[0])
+
+    update_current_query = """
+    UPDATE Consultations SET Current = ?
+    WHERE ConsultationNo = ?
+    """
+
+    db.execute(update_current_query, (current-1, consultationNo))
+    db.commit()
+    db.close()
+
+    return render_template("successful_cancel_booking.html", ID=ID)
 
 @app.route("/teacher/", methods=["GET", "POST"])
 def teacher_login():
@@ -157,18 +211,18 @@ def teacher_login():
         ID = request.form["ID"]
         Password = request.form["Password"]
         db = sqlite3.connect("End of Year Project.db")
-        query = """
-        SELECT Teachers.TeacherID, Teachers.Password
-        FROM Teachers
-        """
-        cursor = db.execute(query)
-        accounts = cursor.fetchall()
 
         valid = False
-        for account in accounts:
-            if account[0] == ID and account[1] == Password:
-                valid = True
-                break
+
+        search_query = """
+        SELECT * FROM Teachers
+        WHERE TeacherID = ? AND Password = ?
+        """
+
+        cursor = db.execute(search_query, (ID, Password))
+        data = cursor.fetchall()
+        if len(data) != 0:
+            valid = True
         if valid:
             return render_template("teacher_homepage.html", ID=ID)
         else:
@@ -222,8 +276,6 @@ def teacher_check_slot():
     ID = request.form["ID"]
     db = sqlite3.connect("End of Year Project.db")
 
-    # if want to check null must use "is"
-
     get_consultations_query = """
     SELECT Consultations.Date, Consultations.TimeSlot, Consultations.Max, Consultations.Min, Consultations.Current
     FROM Consultations
@@ -250,7 +302,48 @@ def teacher_check_slot():
         student_names = cursor.fetchall()
         groups_of_names.append(student_names)
 
-    return render_template("teacher_check_slot.html", consultations=consultations, groups_of_names=groups_of_names)
+    return render_template("teacher_check_slot.html", consultations=consultations, groups_of_names=groups_of_names, ID=ID)
+
+@app.route("/cancel_slot_a/", methods=["GET", "POST"])
+def cancel_slot_a():
+    ID = request.form["ID"]
+    db = sqlite3.connect("End of Year Project.db")
+    query = """
+    SELECT Date, TimeSlot, ConsultationNo FROM Consultations
+    WHERE TeacherID = ?
+    """
+    cursor = db.execute(query, (ID,))
+    data = cursor.fetchall()
+
+    return render_template("cancel_slot.html", ID=ID, data=data)
+
+@app.route("/cancel_slot_b/", methods=["GET", "POST"])
+def cancel_slot_b():
+    ID = request.form["ID"]
+    slot = request.form["slot"]
+
+    slot = slot[1:-1]
+    lst = slot.split(", ")
+    
+    consultationNo = lst[2]
+
+    db = sqlite3.connect("End of Year Project.db")
+
+    delete_consultationRecord_query = """
+    DELETE FROM ConsultationRecord WHERE ConsultationNo = ?
+    """
+
+    delete_consultations_query = """
+    DELETE FROM Consultations WHERE ConsultationNo = ?
+    """
+
+    db.execute(delete_consultationRecord_query, (consultationNo,))
+    db.execute(delete_consultations_query, (consultationNo,))
+
+    db.commit()
+    db.close()
+
+    return render_template("successful_cancel_slot.html", ID=ID)
 
 if __name__ == "__main__":
     app.run(debug=False, port=5002)

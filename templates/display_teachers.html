@@ -41,5 +41,15 @@
             <input type="hidden" name="ID" value="{{ID}}">
             <p><button type="submit">Enter</button></p>
         </form>
+
+        <form align="center" action="{{url_for('student_homepage')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Home Page</button>
+        </form>
+
+        <form align="center" action="{{url_for('home')}}" method="POST">
+            <input type="hidden" name="ID" value="{{ID}}">
+            <button type="submit">Log Out</button>
+        </form>
     </body>
 </html>
